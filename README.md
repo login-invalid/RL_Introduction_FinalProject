@@ -86,7 +86,7 @@ Generate a simulating environment.
 
 * 在这里，我们一共实现了四种强化学习的经典算法：SARSA，Q-learning，Expect-SARSA，以及 SARSA-lambda；
 * 为完整性起见，我们在本章节用伪代码的形式简述各个算法；
-* 注意，在我们的简化问题中，$\lambda\equiv 1, R(s,a)\equiv1,\forall (s,a)\in\mathcal{S}\times\mathcal{A}$；
+* 注意，在我们的简化问题中，$\gamma\equiv 1, R(s,a)\equiv1,\forall (s,a)\in\mathcal{S}\times\mathcal{A}$；
 
 
 
@@ -119,7 +119,7 @@ Generate a simulating environment.
           * q_value[next_state[0], next_state[1], action_]
   ```
 
-  也就是说，当 $a\in\text{best\_actions of $s'$}$，$\pi(a|s')=\dfrac{1-\epsilon}{|\text{best\_actions of $s'$}|}+\dfrac{\epsilon}{\text{action set}}$ ；否则有 $\pi(a|s')=\dfrac{\epsilon}{\text{action set}}$；
+  也就是说，当 $a\in\text{best\_actions of $s'$}$ 时，$\pi(a|s')=\dfrac{1-\epsilon}{|\text{best\_actions of $s'$}|}+\dfrac{\epsilon}{\text{action set}}$ ；否则有 $\pi(a|s')=\dfrac{\epsilon}{\text{action set}}$；
 
 
 
