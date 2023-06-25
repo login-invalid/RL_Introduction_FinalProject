@@ -73,7 +73,7 @@ Generate a simulating environment.
   ```python
   Wind strength for each column is:
   ['0', '-1', '0', '0', '-3', '0', '-2', '-1', '1', '-2', 
-   					  '-2', '-1', '-2', '1', '0', '0', '-1', '0', '0', '-1']
+  '-2', '-1', '-2', '1', '0', '0', '-1', '0', '0', '-1']
   ```
 
 <img src="./figure/3.png" alt="3" style="zoom:50%;" />
@@ -86,7 +86,10 @@ Generate a simulating environment.
 
 * 在这里，我们一共实现了四种强化学习的经典算法：SARSA，Q-learning，Expect-SARSA，以及 SARSA-lambda；
 * 为完整性起见，我们在本章节用伪代码的形式简述各个算法；
-* 注意，在我们的简化问题中，$\gamma\equiv 1, R(s,a)\equiv1,\forall (s,a)\in\mathcal{S}\times\mathcal{A}$；
+* 注意，在我们的简化问题中，
+  $$
+  \gamma\equiv 1, R(s,a)\equiv1,\forall (s,a)\in\mathcal{S}\times\mathcal{A}
+  $$
 
 
 
@@ -104,7 +107,7 @@ Generate a simulating environment.
 
 ### 3.3 Expect-SARSA
 
-<img src="./figure/5.png" alt="5" style="zoom: 50%;" />
+<img src="./figure/6.png" alt="6" style="zoom: 50%;" />
 
 * 注：特别的，这里 $\pi(a|s')$ 的计算在代码中如下实现：
 
@@ -119,11 +122,17 @@ Generate a simulating environment.
           * q_value[next_state[0], next_state[1], action_]
   ```
 
-  也就是说，当 $a\in\text{best\_actions of $s'$}$ 时，$\pi(a|s')=\dfrac{1-\epsilon}{|\text{best\_actions of $s'$}|}+\dfrac{\epsilon}{\text{action set}}$ ；否则有 $\pi(a|s')=\dfrac{\epsilon}{\text{action set}}$；
-
-
+  也就是说，
+  $$
+  当 a\in\text{best\_actions of $s'$} 时,
+  \quad\pi(a|s')=\dfrac{1-\epsilon}{|\text{best\_actions of $s'$}|}+\dfrac{\epsilon}{\text{action set}}, 
+  \quad 否则有 \pi(a|s')=\dfrac{\epsilon}{\text{action set}}.
+  $$
+  
 
 ### 3.4 SARSA-lambda
+
+* 参数 $\lambda$ 实际上就是考虑了资格迹（eligibility trace）的折扣系数；
 
 <img src="./figure/7.png" alt="7" style="zoom: 50%;" />
 
@@ -133,7 +142,7 @@ Generate a simulating environment.
 
 * 在训练过程中，我们会记录每一次走到终点的路径和总共消耗的步数；
 * 同时，为了保证最后算法向最优路径收敛，我们让 $\epsilon$ 随训练的 `episode` 增加而减少；
-* 通过制定 `method` 参数可以指定训练方法，值得注意：每个方法都应该使用各自不同的 Q-table 来进行迭代‘
+* 通过制定 `method` 参数可以指定训练方法，值得注意：每个方法都应该使用各自不同的 Q-table 来进行迭代；
 
 ```python
 while episode_index < EPISODE_NUM:
@@ -253,9 +262,9 @@ world = enviroment_gen(HEIGHT,WIDTH,WIND,is_random = True)
 
 <img src="./figure/14.png" alt="14" style="zoom:50%;" />
 
-![output5](./figure/output7.png)
+![output7](./figure/output7.png)
 
-![output5](./figure/output8.png)
+![output8](./figure/output8.png)
 
 通过上述分析图我们可以发现，相比于之前的情况，在这张被特殊设计的迷宫中四个算法在400个 `episode` 训练后趋向于收敛。特别是 SARSA 算法在经过约250次训练后，其第二幅图像中的曲线就趋向于一条直线（这表明每次训练都得到了固定步长，趋向于最优路径）。但是，我们也发现此时算法的优劣性与我们之前的结论完全不同，这里的 SARSA 算法表现最好（累计步长少）而 Q-learning 却表现显著更差。因此，我们认为在随机风向的情况下，我们很难断言何种算法会有更好的表现。
 
